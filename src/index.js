@@ -1,7 +1,6 @@
 const express = require('express');
 const rateLimit  = require('express-rate-limit');
 const { createProxyMiddleware } = require('http-proxy-middleware');
-
 const { ServerConfig } = require('./config');
 const apiRoutes = require('./routes');
 
@@ -17,10 +16,11 @@ app.use(express.urlencoded({extended:true}));
 
 app.use(limiter)
 
+
 app.use(
     '/flightsService',
     createProxyMiddleware({
-      target: 'http://localhost:3000',
+      target: ServerConfig.FLIGHT_SERVICE,
       changeOrigin: true,
     }),
   );
@@ -28,7 +28,7 @@ app.use(
   app.use(
     '/bookingsService',
     createProxyMiddleware({
-      target: 'http://localhost:4000',
+      target: ServerConfig.BOOKING_SERVICE,
       changeOrigin: true,
     }),
   );
