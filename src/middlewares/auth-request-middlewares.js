@@ -30,13 +30,33 @@ async function checkAuth(req,res,next){
     }
     catch(error){
         return res
-                .status(error.statusCode)
+                .status(StatusCodes.INTERNAL_SERVER_ERROR)
                 .json(error)
     }
     
 }
 
+async function isAdmin(req,res,next){
+    try{
+        const response = await UserService.isAdmin(req.user);
+        if(!response){
+            return res
+                .status(StatusCodes.UNAUTHORIZED)
+                .json({message:'user not authorised for this action'})
+        }
+        next();
+    }catch(error){
+            return res
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json(error)
+        }
+    
+    }
+    
+
+
 module.exports = {
     validateAuthRequest,
-    checkAuth
+    checkAuth,
+    isAdmin
 }

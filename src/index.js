@@ -8,7 +8,7 @@ const app = express();
 
 const limiter = rateLimit({
 	windowMs: 2 * 60 * 1000, // 2 minutes
-	limit: 3, // Limit each IP to 3 requests per `window` (here, per 2 minutes).
+	limit: 30, // Limit each IP to 3 requests per `window` (here, per 2 minutes).
 	});
 
 app.use(express.json());   //help to parse the incoming request body 
